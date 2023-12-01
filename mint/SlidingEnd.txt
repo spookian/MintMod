@@ -1,0 +1,50 @@
+script Scn.Step.Hero.Common.AnimScript.SlidingEnd
+{
+    class Scn.Step.Hero.Common.AnimScript.SlidingEnd
+    {
+        void __Init()
+        {
+            declare 00, 00
+            return
+        }
+        void Exec()
+        {
+            declare 05, 00
+            load r00, 0x10
+            setTrue r01
+            load r02, 0x0
+            setArg [00] r00
+            setArg [01] r01
+            setArg [02] r02
+            call GObj.Anim.Start(int,bool,float)
+
+
+            call GObj.Location.Pos()
+            moveResult r00
+            setArg [00] r00
+            call HEL.Math.Vector3.GetXY()
+            moveResult r03
+
+            new r04, HEL.Math.Vector2
+            load r00, 0x00
+            load r01, 0x3f800000
+            setArg [00] r04
+            setArg [01] r00
+            setArg [02] r01
+            call HEL.Math.Vector2.Set(float,float)
+
+            load r00, 0x7A
+            load r01, 0x00
+            load r02, 0x04
+
+            setArg [00] r00
+            setArg [01] r01
+            setArg [02] r02
+            setArg [03] r03
+            setArg [04] r04
+            call Scn.Step.Hero.Utility.ReqWeapon(int,int,int,HEL.Math.Vector2,HEL.Math.Vector2)
+            delete r04, HEL.Math.Vector2
+            return
+        }
+    }
+}

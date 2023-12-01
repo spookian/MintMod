@@ -21,7 +21,7 @@ extern void* get_objcoll_owner(void* objcoll);
 extern u32* mint_get_argument_addr(void* mint_vm, int argument_idx);
 extern void mint_add_native_function(void *vm_obj, const char *class_name, const char *funct_definition, u32 funct_addr);
 
-const char *request_definition = "void ReqWeapon(int,int,int,HEL.Math.Vector2,HEL.Math.Vector2)";
+const char *request_definition = "void ReqWeapon(int,int,int,const ref HEL.Math.Vector2,const ref HEL.Math.Vector2)";
 
 void mint_request_projectile(WeaponManager *manager_obj, u32 kind, u32 variation, u32 flag, Vector2 position, Vector2 velocity, Owner *owner);
 void mint_wrapper_ReqWeapon(void* mint_vm);
