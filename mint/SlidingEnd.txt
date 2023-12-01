@@ -18,12 +18,17 @@ script Scn.Step.Hero.Common.AnimScript.SlidingEnd
             setArg [02] r02
             call GObj.Anim.Start(int,bool,float)
 
-
+            new r00, HEL.Math.Vector3
+            setArg [00] r00
             call GObj.Location.Pos()
             moveResult r00
+            new r01, HEL.Math.Vector2
             setArg [00] r00
+            setArg [01] r01
+
             call HEL.Math.Vector3.GetXY()
             moveResult r03
+            del r00, HEL.Math.Vector3
 
             new r04, HEL.Math.Vector2
             load r00, 0x00
@@ -31,7 +36,7 @@ script Scn.Step.Hero.Common.AnimScript.SlidingEnd
             setArg [00] r04
             setArg [01] r00
             setArg [02] r01
-            call HEL.Math.Vector2.Set(float,float)
+            call HEL.Math.Vector2.set(float,float)
 
             load r00, 0x7A
             load r01, 0x00
@@ -42,8 +47,9 @@ script Scn.Step.Hero.Common.AnimScript.SlidingEnd
             setArg [02] r02
             setArg [03] r03
             setArg [04] r04
-            call Scn.Step.Hero.Utility.ReqWeapon(int,int,int,HEL.Math.Vector2,HEL.Math.Vector2)
-            delete r04, HEL.Math.Vector2
+            call Scn.Step.Hero.Utility.ReqWeapon(int,int,int,const ref HEL.Math.Vector2,const ref HEL.Math.Vector2)
+            del r04, HEL.Math.Vector2
+            del r03, HEL.Math.Vector2
             return
         }
     }
