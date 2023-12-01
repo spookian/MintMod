@@ -1,0 +1,14 @@
+CMakeCache.txt
+Makefile
+*.arc
+*.brlyt
+*.py
+*.brlan
+*.o
+*.elf
+*.exe
+*.dol
+cmake_install.cmake
+
+build/
+CMakeFiles/
