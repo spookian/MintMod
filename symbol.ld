@@ -4,6 +4,7 @@
 "t_obj__Q43scn4step4hero25" = 0x804fced4;
 "heapName__Q23mem14HeapCompactionCFRCQ44nrel6devkit7heapmap7HeapMap" = 0x801cae04;
 "internal_getArg_addr__Q26mintvm13MintFuncProxyCFUi" = 0x801a02e8;
-"addNativeFunction__Q26mintvm14VMFunctionListFPCcPFRQ26mintvm13MintFuncProxy_v" = 0x801d8c28;
+"addNativeFunction__Q26mintvm6VMCoreFPCcPCcPFRQ26mintvm13MintFuncProxy_v" = 0x801d804c;
+"__dt__Q24util39ObjRefHandle" = 0x80264018;
 
 "vanilla_start" = 0x80006310;

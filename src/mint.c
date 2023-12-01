@@ -5,7 +5,8 @@
 #define get_hero_objcoll t_obj__Q43scn4step4hero25
 #define get_objcoll_owner heapName__Q23mem14HeapCompactionCFRCQ44nrel6devkit7heapmap7HeapMap
 #define mint_get_argument_addr internal_getArg_addr__Q26mintvm13MintFuncProxyCFUi
-#define mint_add_native_function addNativeFunction__Q26mintvm14VMFunctionListFPCcPFRQ26mintvm13MintFuncProxy_v
+#define mint_add_native_function addNativeFunction__Q26mintvm6VMCoreFPCcPCcPFRQ26mintvm13MintFuncProxy_v
+#define destruct_handler __dt__Q24util39ObjRefHandle
 
 #define Owner void
 #define WeaponManager void
@@ -24,9 +25,10 @@ extern void mint_add_native_function(void *vm_obj, const char *class_name, const
 const char *request_definition = "void ReqWeapon(int,int,int,const ref HEL.Math.Vector2,const ref HEL.Math.Vector2)";
 
 void mint_request_projectile(WeaponManager *manager_obj, u32 kind, u32 variation, u32 flag, Vector2 position, Vector2 velocity, Owner *owner);
-void mint_wrapper_ReqWeapon(void* mint_vm);
+void mint_wrapper_ReqWeapon(void *mint_vm);
+void destruct_handler(int *obj_ref_handle);
 
-void register_ReqWeapon(void* vm_obj, const char *class, const char *funct_definition, u32 funct_addr) // hooks into 804d6660
+void register_ReqWeapon(void *vm_obj, const char *class, const char *funct_definition, u32 funct_addr) // hooks into 804d6660
 {
 	mint_add_native_function(vm_obj, class, funct_definition, funct_addr);
 	mint_add_native_function(vm_obj, class, request_definition, (u32)mint_wrapper_ReqWeapon);
@@ -55,5 +57,6 @@ void mint_request_projectile(WeaponManager *manager_obj, u32 kind, u32 variation
 	setup_weapon_desc(desc_obj, kind, variation, flag, position, velocity, owner);
 	
 	request_weapon(padding_data, manager_obj, desc_obj);
+	destruct_handler(padding_data); // turns out this was very essential
 	return;
 }
