@@ -18,21 +18,17 @@ script Scn.Step.Hero.Common.AnimScript.SlidingEnd
             setArg [02] r02
             call GObj.Anim.Start(int,bool,float)
 
-            new r00, HEL.Math.Vector3
-            setArg [00] r00
-            call Scn.Step.Hero.Utility.LoadPos()
-
-            new r01, HEL.Math.Vector2
-            setArg [00] r00
-            setArg [01] r01
-
-            call HEL.Math.Vector3.getXY()const
-            moveResult r03
-            del r00, HEL.Math.Vector3
+            new r03, HEL.Math.Vector2
+            load r00, 0x416ccccd
+            load r01, 0x41100000
+            setArg [00] r03
+            setArg [01] r00
+            setArg [02] r01
+            call HEL.Math.Vector2.set(float,float)
 
             new r04, HEL.Math.Vector2
             load r00, 0x00
-            load r01, 0x3f800000
+            load r01, 0x3d4ccccd
             setArg [00] r04
             setArg [01] r00
             setArg [02] r01

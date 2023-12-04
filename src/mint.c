@@ -1,3 +1,4 @@
+#include <stdint.h>
 
 #define get_weapon_manager weaponManager__Q33scn4step9ComponentFv
 #define setup_weapon_desc __ct__Q43scn4step6weapon4DescFQ43scn4step6weapon4KindUlQ43scn4step5ostop4FlagRCQ33hel4math7Vector2RCQ33hel4math7Vector2RQ25ocoll5Owner
@@ -11,12 +12,11 @@
 #define Owner void
 #define WeaponManager void
 typedef unsigned long u32;
-typedef float Vector2[2];
 typedef int WeaponDesc[14];
 
 extern void* get_weapon_manager(void* component_ptr);
 extern void request_weapon(int* padding, void *weapon_manager, WeaponDesc weapon_descriptor);
-extern void setup_weapon_desc(int* obj, u32 kind, u32 variation, u32 flag, Vector2 position, Vector2 velocity, Owner *owner);
+extern void setup_weapon_desc(int* obj, u32 kind, u32 variation, u32 flag, float* position, float* velocity, Owner *owner);
 extern void* get_hero_objcoll(void* mint_func_proxy);
 extern void* get_objcoll_owner(void* objcoll);
 extern u32* mint_get_argument_addr(void* mint_vm, int argument_idx);
@@ -24,7 +24,7 @@ extern void mint_add_native_function(void *vm_obj, const char *class_name, const
 
 const char *request_definition = "void ReqWeapon(int,int,int,const ref HEL.Math.Vector2,const ref HEL.Math.Vector2)";
 
-void mint_request_projectile(WeaponManager *manager_obj, u32 kind, u32 variation, u32 flag, Vector2 position, Vector2 velocity, Owner *owner);
+void mint_request_projectile(WeaponManager *manager_obj, u32 kind, u32 variation, u32 flag, float* position, float* velocity, Owner *owner);
 void mint_wrapper_ReqWeapon(void *mint_vm);
 void destruct_handler(int *obj_ref_handle);
 
@@ -40,17 +40,21 @@ void mint_wrapper_ReqWeapon(void* mint_vm)
 	u32 kind = *(mint_get_argument_addr(mint_vm, 0));
 	u32 variation = *(mint_get_argument_addr(mint_vm, 1));
 	u32 flag = *(mint_get_argument_addr(mint_vm, 2));
-	Vector2 *pos = (Vector2*)(mint_get_argument_addr(mint_vm, 3)); // these two seem really sketch bc i have no idea if it stores a pointer to a vec2 or a double pointer
-	Vector2 *velocity = (Vector2*)(mint_get_argument_addr(mint_vm, 4));
+	float *pos = *(float**)(mint_get_argument_addr(mint_vm, 3)); // these two seem really sketch bc i have no idea if it stores a pointer to a vec2 or a double pointer
+	float *velocity = *(float**)(mint_get_argument_addr(mint_vm, 4));
 	//FUCK IT.
-	Owner *owner = get_objcoll_owner( get_hero_objcoll(mint_vm) );
-	WeaponManager *manager = get_weapon_manager((void*)0x809ed018); // there might be a freak accident where this just doesn't work
 	
-	mint_request_projectile(manager, kind, variation, flag, *pos, *velocity, owner);
+	uintptr_t hero_objcoll = get_hero_objcoll(mint_vm);
+	hero_objcoll += 8;
+	
+	Owner *owner = get_objcoll_owner( hero_objcoll );
+	WeaponManager *manager = get_weapon_manager(*(void**)hero_objcoll); 
+	
+	mint_request_projectile(manager, kind, variation, flag, pos, velocity, owner);
 	return;
 }
 
-void mint_request_projectile(WeaponManager *manager_obj, u32 kind, u32 variation, u32 flag, Vector2 position, Vector2 velocity, Owner *owner)
+void mint_request_projectile(WeaponManager *manager_obj, u32 kind, u32 variation, u32 flag, float* position, float* velocity, Owner *owner)
 {
 	int padding_data[10];
 	WeaponDesc desc_obj;
